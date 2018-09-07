@@ -1,0 +1,6 @@
+*.pyc
+*.idea*
+codecov.sh
+htmlcov/
+.coverage
+*/venv/
