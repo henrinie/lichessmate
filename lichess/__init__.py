@@ -23,6 +23,7 @@ class ApiRequest(object):
         """Send request to path on the API.
 
         :param path: A relative path added to lichess.org/api/
+        :return: API response, json loaded into dict.
         """
         req = Request(LICHESS_API_URL + path, headers={'Accept': 'application/json'})
         try:
@@ -111,6 +112,7 @@ class LichessBot(object):
         Parse the gameid from a valid lichess gameurl.
 
         :param msg: Message to parse the gameid from.
+        :return: Parsed gameid or None.
         """
         url_match = re.match('^https://([a-zA-Z]{2}\.)?lichess.org/(?P<id>\w+)/?(?:[#\w]*)$', msg)
         if url_match and url_match.group('id'):
@@ -123,6 +125,7 @@ class LichessBot(object):
 
         :param msg: Message to parse.
         :param with_opening: Whether to get opening data for the game.
+        :return: A string to send as a message parsed from the gamedata, or nothing.
 
         """
         game = self.get_game(self.parse_gameid(msg))
@@ -137,6 +140,7 @@ class LichessBot(object):
 
         :param gameid: Lichess gameId.
         :param with_opening: Whether to get opening data for the game.
+        :return: API data of a game, json loaded into dict.
         """
         if gameid:
             path = 'game/{}?with_opening={}'.format(gameid, '1' if with_opening else '0')
@@ -147,7 +151,13 @@ class LichessBot(object):
         return
 
     def parse_gamedata_to_str(self, game, with_opening=False):
-        """Parse game data from a dict to a string."""
+        """
+        Parse game data from a dict to a string.
+
+        :param game: API data of a lichess game. Json loaded into a dict.
+        :param with_opening: Whether to get opening data for the game.
+        :return: String in the form of 'player1(rating) vs. player2(rating) [time+increment]'.
+        """
         white = game.get('players', {}).get('white', {})
         black = game.get('players', {}).get('black', {})
         result = '{white_user}({white_rating}) vs. {black_user}({black_rating}) [{game_time}] {opening}'.format(
@@ -162,6 +172,14 @@ class LichessBot(object):
 
     @staticmethod
     def calculate_gametime(clock):
+        """
+        Return gametime(minutes)+increment(seconds) type of representation of gametime.
+        E.g. '1+0' (1 minute of time with 0 second increments per move),
+        or '15+15' (15 minutes of time with 15 seconds increments per move).
+
+        :param clock: API data of a games clock. Json loaded into a dict.
+        :return: Time formatted as gametime+increment (minutes+seconds).
+        """
         clock_initial = clock.get('initial', '0')
         if clock_initial and int(clock_initial) > 59:
             clock_initial = str(int(int(clock_initial) / 60))
@@ -170,7 +188,9 @@ class LichessBot(object):
         return game_time
 
     def update_player_delay(self):
-        """Remove player from player delay dictionary if the GET_PLAYER_DELAY time has passed."""
+        """
+        Remove a player from players_on_delay if the GET_PLAYER_DELAY time has passed.
+        """
         for key, value in self.players_on_delay.copy().items():
             # If settings.GET_PLAYER_DELAY amount of time has passed
             if time.time() - value > settings.GET_PLAYER_DELAY:
