@@ -1,5 +1,5 @@
 init:
 	pip install pipenv --upgrade
-    pipenv install --dev --skip-lock
+	pipenv install --dev --skip-lock
 docs:
-    cd docs && make html
+	cd docs && make html
