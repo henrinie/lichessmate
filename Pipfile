@@ -5,10 +5,10 @@ name = "pypi"
 
 [dev-packages]
 sphinx = "==1.7.9"
+coverage = "==4.5.1"
 
 [packages]
 irc = "==16.4"
-coverage = "==4.5.1"
 
 [requires]
 python_version = "3.6"
