@@ -1,6 +1,5 @@
 [run]
-source =
-    .
+source = lichess,ircbot
 omit =
     */.local/*
     /usr/*

@@ -3,8 +3,8 @@ python:
     - "3.6"
 install:
     - "make"
-    - pipenv install python-coveralls
+    - pipenv install coveralls
 script:
-    - python -m unittest
+    - coverage run --source=lichess -m unittest
 after_success:
     - coveralls
