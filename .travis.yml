@@ -1,7 +1,9 @@
 language: python
 python:
     - "3.6"
-install: "make"
+install:
+    - "make"
+    - pipenv install coveralls
 script:
     - python -m unittest
     - if [ $TRAVIS_TEST_RESULT -eq 0 ]; then coveralls; fi
