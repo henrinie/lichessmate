@@ -1,5 +1,7 @@
 # lichessmate #
 
+[![Build Status](https://travis-ci.org/henrinie/lichessmate.svg?branch=master)](https://travis-ci.org/henrinie/lichessmate)
+
 Python chatbot for monitoring lichess.org.
 
 ## Features ##
