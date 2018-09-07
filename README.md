@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/henrinie/lichessmate.svg?branch=master)](https://travis-ci.org/henrinie/lichessmate)
 
+[![Coverage Status](https://coveralls.io/repos/github/henrinie/lichessmate/badge.svg?branch=master)](https://coveralls.io/github/henrinie/lichessmate?branch=master)
+
 Python chatbot for monitoring lichess.org.
 
 ## Features ##
