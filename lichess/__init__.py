@@ -84,7 +84,7 @@ class LichessBot(object):
             # Build a lichesstv url for the user
             tv_url = '{}{}'.format(user.get('url', ''), '/tv')
             # Get game id for the game the user is playing in.
-            gameid = self.parse_gameid(user.get('playing'))
+            gameid = self.parse_gameid(user.get('playing', ''))
 
             # Fetch game data as a string.
             if gameid:
